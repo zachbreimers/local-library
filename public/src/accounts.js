@@ -1,18 +1,14 @@
 const accountsFixture = require("../../test/fixtures/accounts.fixture.js")
+const authorsFixture = require("../../test/fixtures/authors.fixture.js")
 const booksFixture = require("../../test/fixtures/books.fixture.js")
 const books = booksFixture.slice()
 const accounts = accountsFixture.slice()
+const authors = authorsFixture.slice()
 const account = accounts[0]
 
+
 function findAccountById(accounts, id) {
-  for (let account in accounts) {
-    const person = accounts[account]
-    const personID = person.id
-    if (personID === id) {
-      return person
-    }
-  }
-  return null
+  return accounts.find(account => account.id === id)
 }
 
 function sortAccountsByLastName(accounts) {
@@ -31,13 +27,35 @@ function getTotalNumberOfBorrows(account, books) {
   return result
 }
 
-console.log(getTotalNumberOfBorrows(account, books))
+function borrowedBooks(books) {
+  const filtered = books.filter((book) => book.borrows.some((borrow) => borrow.returned === false))
+  return filtered
+}
 
-function getBooksPossessedByAccount(account, books, authors) {}
+//console.dir(nonReturnedBooks(books, authors), {depth: null})
+
+function getBooksPossessedByAccount(account, books, authors) {
+  const outstandingBooks = borrowedBooks(books)
+  let booksExtended = []
+  for (let i = 0; i < outstandingBooks.length; i++) {
+    for (let j = 0; j < authors.length; j++) {
+      if (outstandingBooks[i].authorId === authors[j].id) {
+        let book = outstandingBooks[i]
+        let author = authors[j]
+        let bookWithAuthor = { book, author }
+        booksExtended.push(bookWithAuthor)
+      }
+    }
+  }
+  return booksExtended
+}
+
+console.log(getBooksPossessedByAccount(account, books, authors))
 
 module.exports = {
   findAccountById,
   sortAccountsByLastName,
   getTotalNumberOfBorrows,
   getBooksPossessedByAccount,
+  borrowedBooks,
 };
