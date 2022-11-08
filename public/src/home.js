@@ -1,3 +1,5 @@
+/*
+Test data for function validation and review
 const accountsFixture = require("../../test/fixtures/accounts.fixture.js")
 const authorsFixture = require("../../test/fixtures/authors.fixture.js")
 const booksFixture = require("../../test/fixtures/books.fixture.js")
@@ -5,6 +7,7 @@ const books = booksFixture.slice()
 const accounts = accountsFixture.slice()
 const authors = authorsFixture.slice()
 const account = accounts[0]
+*/
 
 function getTotalBooksCount(books) {
   return books.length
@@ -35,9 +38,56 @@ function getMostCommonGenres(books) {
   return result
 }
 
-function getMostPopularBooks(books) {}
+function getMostPopularBooks(books) {
+  result = []
+  books.forEach(book => {
+    const borrows = book.borrows
+    const name = book.title
+    const count = borrows.length
+    result.push({ name, count })
+  })
+  result.sort((resultA, resultB) => (resultA.count < resultB.count ? 1: -1))
+  result = result.slice(0,5)
+  return result
+}
 
-function getMostPopularAuthors(books, authors) {}
+//console.dir(getMostPopularBooks(books), {depth: null})
+
+function getMostPopularAuthors(books, authors) {
+  let bookCount = []
+  let results = []
+  books.forEach(book => {
+    const borrows = book.borrows
+    const name = book.authorId
+    const count = borrows.length
+    bookCount.push({ name, count })
+  })
+  bookCount.reduce((res,value) => {
+    if (!res[value.name]) {
+      res[value.name] = { name: value.name, count: 0 }
+      results.push(res[value.name])
+    }
+    res[value.name].count += value.count
+    return res
+  }, {})
+  results.forEach(result => {
+    const name = result.name
+    authors.forEach(author => {
+      const id = author.id
+      const { name: {first, last}
+    } = author
+      const authorName = `${first} ${last}`
+      if (name === id) {
+        result.name = authorName
+      }
+    })
+  })
+  results.sort((resultA, resultB) => (resultA.count < resultB.count ? 1: -1))
+  results = results.slice(0,5)
+  return results
+}
+
+//console.log(getMostPopularAuthors(books, authors))
 
 module.exports = {
   getTotalBooksCount,

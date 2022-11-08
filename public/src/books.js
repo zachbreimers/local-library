@@ -1,3 +1,5 @@
+/*
+Test data for function validation and review
 const accountsFixture = require("../../test/fixtures/accounts.fixture.js")
 const authorsFixture = require("../../test/fixtures/authors.fixture.js")
 const booksFixture = require("../../test/fixtures/books.fixture.js")
@@ -6,6 +8,7 @@ const accounts = accountsFixture.slice()
 const authors = authorsFixture.slice()
 const account = accounts[0]
 const book = books[0]
+*/
 
 function findAuthorById(authors, id) {
   return authors.find(author => author.id === id)
@@ -36,7 +39,7 @@ function getBorrowersForBook(book, accounts) {
   return result
 }
 
-console.log(getBorrowersForBook(book, accounts))
+//console.log(getBorrowersForBook(book, accounts))
 
 module.exports = {
   findAuthorById,
