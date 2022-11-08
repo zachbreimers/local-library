@@ -42,7 +42,7 @@ function getBooksPossessedByAccount(account, books, authors) {
       if (outstandingBooks[i].authorId === authors[j].id) {
         let book = outstandingBooks[i]
         let author = authors[j]
-        let bookWithAuthor = { book, author }
+        let bookWithAuthor = { ...book, author }
         booksExtended.push(bookWithAuthor)
       }
     }
@@ -50,7 +50,7 @@ function getBooksPossessedByAccount(account, books, authors) {
   return booksExtended
 }
 
-console.log(getBooksPossessedByAccount(account, books, authors))
+console.dir(getBooksPossessedByAccount(account, books, authors), {depth: null})
 
 module.exports = {
   findAccountById,

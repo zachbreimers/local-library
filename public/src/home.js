@@ -35,8 +35,6 @@ function getMostCommonGenres(books) {
   return result
 }
 
-console.log(getMostCommonGenres(books))
-
 function getMostPopularBooks(books) {}
 
 function getMostPopularAuthors(books, authors) {}

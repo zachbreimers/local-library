@@ -5,6 +5,7 @@ const books = booksFixture.slice()
 const accounts = accountsFixture.slice()
 const authors = authorsFixture.slice()
 const account = accounts[0]
+const book = books[0]
 
 function findAuthorById(authors, id) {
   return authors.find(author => author.id === id)
@@ -21,9 +22,21 @@ function partitionBooksByBorrowedStatus(books) {
   return result
 }
 
-console.dir(partitionBooksByBorrowedStatus(books), {depth:null})
+//console.dir(partitionBooksByBorrowedStatus(books), {depth:null})
 
-function getBorrowersForBook(book, accounts) {}
+function getBorrowersForBook(book, accounts) {
+  const { borrows } = book
+  let result = []
+  borrows.forEach(borrow => {
+    const account = accounts.find(account => account.id === borrow.id)
+    const returned = borrow.returned
+    result.push({ ...account, returned })
+  })
+  result = result.slice(0,10)
+  return result
+}
+
+console.log(getBorrowersForBook(book, accounts))
 
 module.exports = {
   findAuthorById,
